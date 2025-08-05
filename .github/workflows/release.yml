@@ -77,7 +77,6 @@ jobs:
           echo "* Updated on ${{ env.RELEASE_DATE }}" > RELEASE_NOTES
 
       - name: Push assets to release branch
-        if: ${{ !inputs.PRE_RELEASE }}
         run: |
           cd release || exit 1
           git init
@@ -86,7 +85,7 @@ jobs:
           git checkout -b release
           git add .
           git commit -m "${{ env.RELEASE_NAME }}"
-          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git remote add origin "https://${{ github.actor }}:${{ secrets.TOKEN }}@github.com/${{ github.repository }}"
           git push -f origin release
 
       - name: Push rule sets to rule-set branch
@@ -99,7 +98,7 @@ jobs:
           git checkout -b rule-set
           git add .
           git commit -m "${{ env.RELEASE_NAME }}"
-          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git remote add origin "https://${{ github.actor }}:${{ secrets.TOKEN }}@github.com/${{ github.repository }}"
           git push -f origin rule-set
 
       - name: Purge jsDelivr CDN cache - release
